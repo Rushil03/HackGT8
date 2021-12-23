@@ -1,0 +1,1128 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "MAIS Subscriptions API",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://api.ncr.com/digitalbanking/subscriptions"
+    }
+  ],
+  "paths": {
+    "/v1/fis/{di_fiid}/fiCustomers/{di_ficustomer}/subscriptions": {
+      "get": {
+        "tags": [
+          "Subscriptions"
+        ],
+        "summary": "Get Subscriptions by user",
+        "description": "Retrieve the subscriptions for a given fi and customer. This can be filtered by a single eventType or list of event Types and/or action by specifying the query params.\n",
+        "parameters": [
+          {
+            "name": "di_tid",
+            "in": "header",
+            "description": "Unique id used to identify the request. The id allows the request to be traced through the entire request and reponse flow. The expected id is a UUID, in the canonical form e.g 123e4567-e89b-12d3-a456-426655440000",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "originating_ip",
+            "in": "header",
+            "description": "The IP address of the device making the request for authentication. If not provided the IP address logged will be the IP address extracted from the HTTP request. <b>Note:</b> this should be the originating device, rather than the client making the request e.g. if a mobile device is used the ip address should be that of the mobile device, rather than a back end service",
+            "required": false,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "User-Agent",
+            "in": "header",
+            "description": "Identifies the application and the platform making the request.The expected format is `{Appname}/{Appversion}[/{DeviceID}][;{Platform User-Agent}]` e.g. iPhone/1.0/abc12345;Nokia3110",
+            "required": false,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Standard OAuth 2.0 access tokenA string composed of	 `Bearer` + `(space)` + `{token}`; example `Bearer rvYKAItOGiMQy1yOHdUDAHWp2HG1`",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "di_fiid",
+            "in": "path",
+            "description": "Identifies the Financial Institution",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string",
+              "format": "string"
+            }
+          },
+          {
+            "name": "di_ficustomer",
+            "in": "path",
+            "description": "Identifies the customer",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string",
+              "format": "string"
+            }
+          },
+          {
+            "name": "eventType",
+            "in": "query",
+            "description": "The event type which identifies the subscription",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "string",
+              "format": "string"
+            }
+          },
+          {
+            "name": "action",
+            "in": "query",
+            "description": "The action that needs to take place for this subscription",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "string",
+              "format": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "An array of Subscription",
+            "content": {
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/Subscriptions"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "Success with no content in the response",
+            "content": {}
+          },
+          "400": {
+            "description": "Missing Required HTTP Headers or Invalid/Missing Inputs",
+            "content": {}
+          },
+          "401": {
+            "description": "Authorization invalid or Missing Authorization Header",
+            "content": {}
+          },
+          "404": {
+            "description": "Resource not found",
+            "content": {}
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {}
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Subscription"
+        ],
+        "summary": "Update Subscription",
+        "description": "Updates an existing Subscription\n",
+        "parameters": [
+          {
+            "name": "di_tid",
+            "in": "header",
+            "description": "Unique id used to identify the request. The id allows the request to be traced through the entire request and reponse flow. The expected id is a UUID, in the canonical form e.g 123e4567-e89b-12d3-a456-426655440000",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "description": "The content type of the request body, the expected content type is application/xml",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string",
+              "default": "application/xml"
+            }
+          },
+          {
+            "name": "originating_ip",
+            "in": "header",
+            "description": "The IP address of the device making the request for authentication. If not provided the IP address logged will be the IP address extracted from the HTTP request. <b>Note:</b> this should be the originating device, rather than the client making the request e.g. if a mobile device is used the ip address should be that of the mobile device, rather than a back end service",
+            "required": false,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "User-Agent",
+            "in": "header",
+            "description": "Identifies the application and the platform making the request.The expected format is `{Appname}/{Appversion}[/{DeviceID}][;{Platform User-Agent}]` e.g. iPhone/1.0/abc12345;Nokia3110",
+            "required": false,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Standard OAuth 2.0 access tokenA string composed of `Bearer` + `(space)` + `{token}`; example `Bearer rvYKAItOGiMQy1yOHdUDAHWp2HG1`",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "di_fiid",
+            "in": "path",
+            "description": "Identifies the Financial Institution",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string",
+              "format": "string"
+            }
+          },
+          {
+            "name": "di_ficustomer",
+            "in": "path",
+            "description": "Identifies the customer",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string",
+              "format": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/Subscription"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Subscription and related scheduling information updated successfully",
+            "content": {
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/Subscription"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing Required HTTP Headers or Invalid/Missing Inputs",
+            "content": {}
+          },
+          "401": {
+            "description": "Authorization invalid or Missing Authorization Header",
+            "content": {}
+          },
+          "404": {
+            "description": "Resource not found",
+            "content": {}
+          },
+          "409": {
+            "description": "Data Integrity Violation while creating Subscription",
+            "content": {}
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {}
+          }
+        },
+        "x-codegen-request-body-name": "Subscription"
+      },
+      "post": {
+        "tags": [
+          "Subscription"
+        ],
+        "summary": "Create Subscription",
+        "description": "Creates a new Subscription.\n",
+        "parameters": [
+          {
+            "name": "di_tid",
+            "in": "header",
+            "description": "Unique id used to identify the request. The id allows the request to be traced through the entire request and reponse flow. The expected id is a UUID, in the canonical form e.g 123e4567-e89b-12d3-a456-426655440000",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "description": "The content type of the request body, the expected content type is application/xml",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string",
+              "default": "application/xml"
+            }
+          },
+          {
+            "name": "originating_ip",
+            "in": "header",
+            "description": "The IP address of the device making the request for authentication. If not provided the IP address logged will be the IP address extracted from the HTTP request. <b>Note:</b> this should be the originating device, rather than the client making the request e.g. if a mobile device is used the ip address should be that of the mobile device, rather than a back end service",
+            "required": false,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "User-Agent",
+            "in": "header",
+            "description": "Identifies the application and the platform making the request.The expected format is `{Appname}/{Appversion}[/{DeviceID}][;{Platform User-Agent}]` e.g. iPhone/1.0/abc12345;Nokia3110",
+            "required": false,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Standard OAuth 2.0 access tokenA string composed of `Bearer` + `(space)` + `{token}`; example `Bearer rvYKAItOGiMQy1yOHdUDAHWp2HG1`",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "di_fiid",
+            "in": "path",
+            "description": "Identifies the Financial Institution",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string",
+              "format": "string"
+            }
+          },
+          {
+            "name": "di_ficustomer",
+            "in": "path",
+            "description": "Identifies the customer",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string",
+              "format": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/Subscription"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Subscription and related scheduling information created successfully",
+            "content": {
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/Subscription"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing Required HTTP Headers or Invalid/Missing Inputs",
+            "content": {}
+          },
+          "401": {
+            "description": "Authorization invalid or Missing Authorization Header",
+            "content": {}
+          },
+          "404": {
+            "description": "Resource not found",
+            "content": {}
+          },
+          "409": {
+            "description": "Data Integrity Violation while creating Subscription",
+            "content": {}
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {}
+          }
+        },
+        "x-codegen-request-body-name": "Subscription"
+      }
+    },
+    "/v1/fis/{di_fiid}/subscriptions": {
+      "get": {
+        "tags": [
+          "Subscriptions"
+        ],
+        "summary": "Get Subscriptions by Fi",
+        "description": "Retrieves the first twenty subscriptions.\n",
+        "parameters": [
+          {
+            "name": "di_tid",
+            "in": "header",
+            "description": "Unique id used to identify the request. The id allows the request to be traced through the entire request and reponse flow. The expected id is a UUID, in the canonical form e.g 123e4567-e89b-12d3-a456-426655440000",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "originating_ip",
+            "in": "header",
+            "description": "The IP address of the device making the request for authentication. If not provided the IP address logged will be the IP address extracted from the HTTP request. <b>Note:</b> this should be the originating device, rather than the client making the request e.g. if a mobile device is used the ip address should be that of the mobile device, rather than a back end service",
+            "required": false,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "User-Agent",
+            "in": "header",
+            "description": "Identifies the application and the platform making the request.The expected format is `{Appname}/{Appversion}[/{DeviceID}][;{Platform User-Agent}]` e.g. iPhone/1.0/abc12345;Nokia3110",
+            "required": false,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Standard OAuth 2.0 access tokenA string composed of `Bearer` + `(space)` + `{token}`; example `Bearer rvYKAItOGiMQy1yOHdUDAHWp2HG1`",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "di_fiid",
+            "in": "path",
+            "description": "Identifies the Financial Institution",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string",
+              "format": "string"
+            }
+          },
+          {
+            "name": "eventType",
+            "in": "query",
+            "description": "The event type which identifies the subscription",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "string",
+              "format": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "The number of subscriptions to be retrieved as response. The default value for this query parameter is 30",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "string",
+              "format": "string"
+            }
+          },
+          {
+            "name": "userToken",
+            "in": "query",
+            "description": "The user identifier of the last subscription in the previous list retrieved. If this is not specified, the calling application will receive the first 'limit' subscriptions in the list as response.",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "string",
+              "format": "string"
+            }
+          },
+          {
+            "name": "filterOutSubs",
+            "in": "query",
+            "description": "Its boolean type, when its true - subscription that is already processed during the given day will not be returned in the response",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "string",
+              "format": "string"
+            }
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "description": "A - Active, I - Inactive, default behavior is to send both active and inactive subscriptions",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "string",
+              "format": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "An array of Subscription",
+            "content": {
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/Subscriptions"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "Success with content in the response",
+            "content": {}
+          },
+          "400": {
+            "description": "Missing Required HTTP Headers or Invalid/Missing Inputs",
+            "content": {}
+          },
+          "401": {
+            "description": "Authorization invalid or Missing Authorization Header",
+            "content": {}
+          },
+          "404": {
+            "description": "Entities not Found (User or Account not found)",
+            "content": {}
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {}
+          }
+        }
+      }
+    },
+    "/v1/fis/{di_fiid}/fiCustomers/{di_ficustomer}/subscriptions/{subscription_id}": {
+      "get": {
+        "tags": [
+          "Subscriptions"
+        ],
+        "summary": "Get Subscription",
+        "description": "Retrieves the Subscription identified by the subscription_id\n",
+        "parameters": [
+          {
+            "name": "di_tid",
+            "in": "header",
+            "description": "Unique id used to identify the request. The id allows the request to be traced through the entire request and reponse flow. The expected id is a UUID, in the canonical form e.g 123e4567-e89b-12d3-a456-426655440000",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "originating_ip",
+            "in": "header",
+            "description": "The IP address of the device making the request for authentication. If not provided the IP address logged will be the IP address extracted from the HTTP request. <b>Note:</b> this should be the originating device, rather than the client making the request e.g. if a mobile device is used the ip address should be that of the mobile device, rather than a back end service",
+            "required": false,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "User-Agent",
+            "in": "header",
+            "description": "Identifies the application and the platform making the request.The expected format is `{Appname}/{Appversion}[/{DeviceID}][;{Platform User-Agent}]` e.g. iPhone/1.0/abc12345;Nokia3110",
+            "required": false,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Standard OAuth 2.0 access tokenA string composed of `Bearer` + `(space)` + `{token}`; example `Bearer rvYKAItOGiMQy1yOHdUDAHWp2HG1`",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "di_fiid",
+            "in": "path",
+            "description": "Identifies the Financial Institution",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string",
+              "format": "string"
+            }
+          },
+          {
+            "name": "di_ficustomer",
+            "in": "path",
+            "description": "Identifies the customer",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string",
+              "format": "string"
+            }
+          },
+          {
+            "name": "subscription_id",
+            "in": "path",
+            "description": "Identifies the subscription to get",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string",
+              "format": "string"
+            }
+          },
+          {
+            "name": "eventType",
+            "in": "query",
+            "description": "The event type which identifies the subscription",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "string",
+              "format": "string"
+            }
+          },
+          {
+            "name": "action",
+            "in": "query",
+            "description": "The action that needs to take place for this subscription.",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "string",
+              "format": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A Subscription",
+            "content": {
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/Subscription"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "Success with no content in the response",
+            "content": {}
+          },
+          "400": {
+            "description": "Missing Required HTTP Headers or Invalid/Missing Inputs",
+            "content": {}
+          },
+          "401": {
+            "description": "Authorization invalid or Missing Authorization Header",
+            "content": {}
+          },
+          "404": {
+            "description": "Resource not found",
+            "content": {}
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {}
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Subscription"
+        ],
+        "summary": "Delete Subscription",
+        "description": "Delete a Subscription\n",
+        "parameters": [
+          {
+            "name": "di_tid",
+            "in": "header",
+            "description": "Unique id used to identify the request. The id allows the request to be traced through the entire request and reponse flow. The expected id is a UUID, in the canonical form e.g 123e4567-e89b-12d3-a456-426655440000",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "originating_ip",
+            "in": "header",
+            "description": "The IP address of the device making the request for authentication. If not provided the IP address logged will be the IP address extracted from the HTTP request. <b>Note:</b> this should be the originating device, rather than the client making the request e.g. if a mobile device is used the ip address should be that of the mobile device, rather than a back end service",
+            "required": false,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "User-Agent",
+            "in": "header",
+            "description": "Identifies the application and the platform making the request.The expected format is `{Appname}/{Appversion}[/{DeviceID}][;{Platform User-Agent}]` e.g. iPhone/1.0/abc12345;Nokia3110",
+            "required": false,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Standard OAuth 2.0 access tokenA string composed of `Bearer` + `(space)` + `{token}`; example `Bearer rvYKAItOGiMQy1yOHdUDAHWp2HG1`",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "di_fiid",
+            "in": "path",
+            "description": "Identifies the Financial Institution",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string",
+              "format": "string"
+            }
+          },
+          {
+            "name": "di_ficustomer",
+            "in": "path",
+            "description": "Identifies the customer",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string",
+              "format": "string"
+            }
+          },
+          {
+            "name": "subscription_id",
+            "in": "path",
+            "description": "Identifies the subscription to be deleted",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string",
+              "format": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Subscription and related scheduling information deleted successfully",
+            "content": {}
+          },
+          "400": {
+            "description": "Missing Required HTTP Headers or Invalid/Missing Inputs",
+            "content": {}
+          },
+          "401": {
+            "description": "Authorization invalid or Missing Authorization Header",
+            "content": {}
+          },
+          "404": {
+            "description": "Resource not found",
+            "content": {}
+          },
+          "409": {
+            "description": "Data Integrity Violation while creating Subscription",
+            "content": {}
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {}
+          }
+        }
+      }
+    },
+    "/v1/fis/{di_fiid}/fiCustomers/{di_ficustomer}/events": {
+      "post": {
+        "tags": [
+          "Subscription"
+        ],
+        "summary": "Send Event",
+        "description": "Sends the necessary event to the message service.\n",
+        "parameters": [
+          {
+            "name": "di_tid",
+            "in": "header",
+            "description": "Unique id used to identify the request. The id allows the request to be traced through the entire request and reponse flow. The expected id is a UUID, in the canonical form e.g 123e4567-e89b-12d3-a456-426655440000",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "description": "The content type of the request body, the expected content type is application/xml",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string",
+              "default": "application/xml"
+            }
+          },
+          {
+            "name": "originating_ip",
+            "in": "header",
+            "description": "The IP address of the device making the request for authentication. If not provided the IP address logged will be the IP address extracted from the HTTP request. <b>Note:</b> this should be the originating device, rather than the client making the request e.g. if a mobile device is used the ip address should be that of the mobile device, rather than a back end service",
+            "required": false,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "User-Agent",
+            "in": "header",
+            "description": "Identifies the application and the platform making the request.The expected format is `{Appname}/{Appversion}[/{DeviceID}][;{Platform User-Agent}]` e.g. iPhone/1.0/abc12345;Nokia3110",
+            "required": false,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Standard OAuth 2.0 access tokenA string composed of `Bearer` + `(space)` + `{token}`; example `Bearer rvYKAItOGiMQy1yOHdUDAHWp2HG1`",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "di_fiid",
+            "in": "path",
+            "description": "Identifies the Financial Institution",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string",
+              "format": "string"
+            }
+          },
+          {
+            "name": "di_ficustomer",
+            "in": "path",
+            "description": "Identifies the customer",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string",
+              "format": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Events",
+          "content": {
+            "application/xml": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/Events"
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": "Event sent successfully",
+            "content": {}
+          },
+          "400": {
+            "description": "Missing Required HTTP Headers or Invalid/Missing Inputs",
+            "content": {}
+          },
+          "401": {
+            "description": "Authorization invalid or Missing Authorization Header",
+            "content": {}
+          },
+          "404": {
+            "description": "Resource not found",
+            "content": {}
+          },
+          "409": {
+            "description": "Data Integrity Violation while creating Subscription",
+            "content": {}
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {}
+          }
+        },
+        "x-codegen-request-body-name": "body"
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Subscriptions": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/Subscription"
+        }
+      },
+      "Subscription": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The primary ID of the Subscription"
+          },
+          "fiId": {
+            "type": "string",
+            "description": "The Financial Institution ID."
+          },
+          "fiCustomerId": {
+            "type": "string",
+            "description": "FI Customer Id."
+          },
+          "eventTypeId": {
+            "type": "string",
+            "description": "The event type for this subscription."
+          },
+          "fulfillment": {
+            "type": "string",
+            "description": "Info on the number of remaining scheduled runs required to fulfill this schedule."
+          },
+          "subscriptionEventConditionsMap": {
+            "type": "object",
+            "additionalProperties": {
+              "$ref": "#/components/schemas/subscriptionEventConditionsMap"
+            },
+            "description": "subscriptionEventConditionsMap."
+          },
+          "subscriptionActions": {
+            "type": "object",
+            "additionalProperties": {
+              "$ref": "#/components/schemas/subscriptionActions"
+            },
+            "description": "List of actions for this subscription"
+          }
+        }
+      },
+      "subscriptionEventConditionsMap": {
+        "type": "object",
+        "properties": {
+          "map": {
+            "type": "array",
+            "description": "Event Condition Key Value pairs for this subscription",
+            "items": {
+              "$ref": "#/components/schemas/entry"
+            }
+          }
+        }
+      },
+      "entry": {
+        "type": "object",
+        "properties": {
+          "key": {
+            "type": "string",
+            "description": "condition key"
+          },
+          "value": {
+            "type": "string",
+            "description": "condition value"
+          }
+        }
+      },
+      "subscriptionActions": {
+        "type": "object",
+        "properties": {
+          "subscriptionAction": {
+            "type": "array",
+            "description": "subscription action",
+            "items": {
+              "$ref": "#/components/schemas/subscriptionAction"
+            }
+          }
+        }
+      },
+      "subscriptionAction": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "The name of the subscription action"
+          },
+          "subscriptionActionAttributesMap": {
+            "type": "object",
+            "additionalProperties": {
+              "$ref": "#/components/schemas/subscriptionActionAttributesMap"
+            },
+            "description": "Action Attribute Key Value pairs for this action of the subscription"
+          }
+        }
+      },
+      "subscriptionActionAttributesMap": {
+        "type": "object",
+        "properties": {
+          "map": {
+            "type": "array",
+            "description": "Action Attribute Key Value pairs for this action of the subscription",
+            "items": {
+              "$ref": "#/components/schemas/entry"
+            }
+          }
+        }
+      },
+      "Events": {
+        "type": "object",
+        "properties": {
+          "Event": {
+            "type": "array",
+            "description": "Event",
+            "items": {
+              "$ref": "#/components/schemas/Event"
+            }
+          }
+        }
+      },
+      "Event": {
+        "type": "object",
+        "properties": {
+          "fiCustomerId": {
+            "type": "string",
+            "description": "FI Customer Id"
+          },
+          "fiId": {
+            "type": "string",
+            "description": "FI Id"
+          },
+          "eventType": {
+            "type": "string",
+            "description": "Event Type"
+          },
+          "dataMap": {
+            "type": "array",
+            "description": "Data Map",
+            "items": {
+              "$ref": "#/components/schemas/dataMap"
+            }
+          }
+        }
+      },
+      "dataMap": {
+        "type": "object",
+        "properties": {
+          "map": {
+            "type": "array",
+            "description": "Action Attribute Key Value pairs for this action of the subscription",
+            "items": {
+              "$ref": "#/components/schemas/entry"
+            }
+          }
+        }
+      }
+    }
+  }
+}
